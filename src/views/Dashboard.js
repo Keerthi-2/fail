@@ -11,6 +11,7 @@ import {
   ModalBody,
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
+import ChatbotComponent from "./ChatBot";
 
 
 function Dashboard() {
@@ -85,10 +86,14 @@ function Dashboard() {
             </Card>
           </Col>
         </Row>
+        <Row>
+          <ChatbotComponent></ChatbotComponent>
+        </Row>
       </div>
-      {modal && (
+      {/* {modal && (
            <button>Hii</button>
-        )}
+        )} */}
+        
     </>
   );
 }
