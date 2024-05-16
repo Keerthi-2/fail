@@ -30,10 +30,9 @@ function UserProfile() {
                   <Row>
                     <Col className="pr-md-1" md="5">
                       <FormGroup>
-                        <label>Company (disabled)</label>
+                        <label>Company</label>
                         <Input
                           defaultValue="Creative Code Inc."
-                          disabled
                           placeholder="Company"
                           type="text"
                         />
@@ -120,21 +119,6 @@ function UserProfile() {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col md="8">
-                      <FormGroup>
-                        <label>About Me</label>
-                        <Input
-                          cols="80"
-                          defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
-                            that two seat Lambo."
-                          placeholder="Here can be your description"
-                          rows="4"
-                          type="textarea"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
                 </Form>
               </CardBody>
               <CardFooter>
@@ -157,11 +141,10 @@ function UserProfile() {
                     <img
                       alt="..."
                       className="avatar"
-                      src={require("assets/img/emilyz.jpg")}
+                      src={require("assets/img/anime6.png")}
                     />
                     <h5 className="title">Mike Andrew</h5>
                   </a>
-                  <p className="description">Ceo/Co-Founder</p>
                 </div>
                 <div className="card-description">
                   Do not be scared of the truth because we need to restart the

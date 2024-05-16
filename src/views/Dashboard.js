@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
 
 import {
   Card,
@@ -7,8 +10,6 @@ import {
   CardTitle,
   Row,
   Col,
-  Modal,
-  ModalBody,
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import ChatbotComponent from "./ChatBot";
@@ -19,13 +20,17 @@ function Dashboard() {
   const [fullscreen, setFullScreen]=useState(true)
   const navigate=useNavigate()  
 
-
+  function handleEyeClick() {
+    navigate('/eye')
+  }
   function handlePageConstruction(){
    navigate('/pageUnderConstruction')
   }
 
   function handleSpeechClick(){
     navigate('/speech')
+    // console.log("Hii")
+    // setShowMaodal(true)
   }
   return (
     <>
@@ -50,7 +55,7 @@ function Dashboard() {
         </Row>
         <Row>
           <Col lg="4">
-            <Card className="card-chart" style={{cursor: "pointer"}} onClick={handlePageConstruction}>
+            <Card className="card-chart" style={{cursor: "pointer"}} onClick={handleEyeClick}>
               <CardHeader>
                 <CardTitle tag="h3">
                   Eyes
@@ -90,9 +95,27 @@ function Dashboard() {
           <ChatbotComponent></ChatbotComponent>
         </Row>
       </div>
-      {/* {modal && (
-           <button>Hii</button>
-        )} */}
+      {modal && (
+           <div
+           className="modal show"
+           style={{ display: 'block', position: 'initial' }}
+         >
+           <Modal.Dialog>
+             <Modal.Header closeButton>
+               <Modal.Title>Modal title</Modal.Title>
+             </Modal.Header>
+     
+             <Modal.Body>
+               <p>Modal body text goes here.</p>
+             </Modal.Body>
+     
+             <Modal.Footer>
+               <Button variant="secondary">Close</Button>
+               <Button variant="primary">Save changes</Button>
+             </Modal.Footer>
+           </Modal.Dialog>
+         </div>
+        )}
         
     </>
   );

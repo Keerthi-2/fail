@@ -33,6 +33,7 @@ import Speech from "views/Speech";
 import LoginForm from "views/Login";
 import Login from "views/Login";
 import SpeechTest from "views/SpeechTest";
+import Eye from "views/Eye";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -49,6 +50,7 @@ root.render(
           <Route path='/pageUnderConstruction' element={<PageUnderConstruction></PageUnderConstruction>}></Route>
           <Route path="/login" element={<Login></Login>}></Route>
           <Route path="/speech" element={<SpeechTest></SpeechTest>}></Route>
+          <Route path="/eye" element={<Eye></Eye>}></Route>
         </Routes>
       </BrowserRouter>
     </BackgroundColorWrapper>

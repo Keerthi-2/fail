@@ -1,4 +1,6 @@
 import pandas as pd
+import pickle
+
 df = pd.read_csv("./sep28k-mfcc.csv")
 
 # %%
@@ -38,6 +40,8 @@ import numpy as np
 clf = DecisionTreeClassifier(criterion='entropy',random_state=5)
 clf.fit(X_train, y_train)
 clf.score(X_test,y_test) * 100
+
+pickle.dump(clf, open('ml_model.pkl', 'wb'))
 
 # %%
 y_pred = np.array(clf.predict(X_test))
@@ -80,7 +84,7 @@ def split_audio(file_path, segment_length=3, format='wav'):
         print(f"Exported {out_filename}")
 
 # Usage
-split_audio("C:/Users/ns5085/Downloads/stutter-classification-main/output8.wav")
+split_audio("C:/Users/kk716j/Downloads/output.wav")
 print(filenames)
 
 

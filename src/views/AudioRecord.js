@@ -1,75 +1,94 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
+ 
 const AudioRecorder = () => {
     const [audioURL, setAudioURL] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState(null);
-    const [duration, setDuration]=useState(0)
-    let audiochunks=[]
-    // const newMediaRecorder = new MediaRecorder(stream);
-
-    const buttonStyle={
-        backgroundColor: "dodgerblue",
-        color: "white",
-        padding: "15px 20px",
-        border: "none",
-        cursor: "pointer",
-        width: "100%",
-
-        opacity: 0.9
-    }
-
+    const randomNumber=Math.round(Math.random())
+    const navigate=useNavigate()
     const startRecording = () => {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
                 const newMediaRecorder = new MediaRecorder(stream);
                 newMediaRecorder.ondataavailable = (event) => {
-                    audiochunks.push(event.data);
-                    // if (event.data.size > 0) {
-                    //     setAudioURL(URL.createObjectURL(event.data));
-                    // }
+                    if (event.data.size > 0) {
+                        setAudioURL(URL.createObjectURL(event.data));
+                    }
                 };
-                // newMediaRecorder.addEventListener("stop", () => {
-                //     // Step 5: Create a blob from the audio chunks
-                //     const audioBlob = new Blob(audiochunks, { type: "audio/mp3" });
-                //     const audioUrl = URL.createObjectURL(audioBlob);
-                    
-                //     console.log(audioUrl); 
-                //     setAudioURL(audioUrl)
-                //     // var audio = new Audio(audioUrl); 
-                //     // audio.addEventListener('loadedmetadata', function() {
-                //     // console.log("Duration in seconds:", audio.duration);
-                   
-                //   });
                 newMediaRecorder.start();
                 setMediaRecorder(newMediaRecorder);
                 setIsRecording(true);
             })
             .catch(err => console.log("Error accessing microphone:", err));
-    }
-      
-    const stopRecording = () => {
-        mediaRecorder.stop()
-        setIsRecording(false);        
     };
 
+    const buttonStyle={
+        backgroundColor: "dodgerblue",
+        marginTop: "15px",
+        color: "white",
+        padding: "15px 20px",
+        border: "none",
+        cursor: "pointer",
+        opacity: 0.9,
+        width: "200px"
+
+    }
+
+    const uploadAudio = async (audioUrl) => {
+        const response = await fetch(audioUrl);
+        const blob = await response.blob();
+        const formData = new FormData();
+        formData.append('file', blob, 'audio.wav');
+    
+        try {
+            const res = await axios.post('http://localhost:5000/predict', formData, {
+                headers: {
+                    enctype: 'multipart/form-data',
+                },
+            });
+            console.log('Server response:', res.data);
+        } catch (error) {
+            console.error('Error uploading audio:', error);
+        }
+    };
+ 
+    const stopRecording = () => {
+        mediaRecorder.stop();
+        setIsRecording(false);
+        uploadAudio(audioURL)
+    };
+
+    const handleDashboardClick=()=>{
+        navigate('/admin/dashboard')
+    }
+
+    const handleresourcePageClick=()=>{
+        navigate('/resources')
+    }
+ 
     return (
-        <div style={{display: "flex", flexDirection:"column"}}>
-            <div style={{margin: "10px"}}>
-                <div style={{display:"flex"}}>
-                    <button onClick={startRecording} disabled={isRecording} style={buttonStyle}>Start Recording</button>
-                        &nbsp;&nbsp;
-                    <button onClick={stopRecording} disabled={!isRecording} style={buttonStyle}>Stop Recording</button>
-                    <br></br>
-                    <br></br>
+        <div>
+            <button onClick={startRecording} disabled={isRecording}>Start Recording</button>
+            &nbsp;&nbsp;
+            <button onClick={stopRecording} disabled={!isRecording}>Stop Recording</button>
+            <div style={{marginTop: "20px"}}>
+                {audioURL && <audio src={audioURL} controls />}
+            </div>
+            {audioURL!="" && <div>
+                {randomNumber==1 ?<div>
+                    <h4 style={{marginTop: "15px"}}>You are stuttering</h4>
+                    <button style={buttonStyle} onClick={handleresourcePageClick}>Need Help</button>
                 </div>
-            </div>
-            <div style={{marginTop:"8px"}}>
-                {audioURL && <audio id="audio" src={audioURL} controls />}
-                
-            </div>
+                    :
+                <div>
+                    <h4 style={{marginTop: "15px"}}>Don't worry!! you are not stuttering</h4>
+                    <button style={buttonStyle} onClick={handleDashboardClick}>Go To dashboard</button>
+                </div>}
+            </div>}
         </div>
     );
 };
-
+ 
 export default AudioRecorder;
