@@ -17,20 +17,26 @@ import ChatbotComponent from "./ChatBot";
 
 function Dashboard() {
   const[modal,setShowMaodal]=useState(false)
-  const [fullscreen, setFullScreen]=useState(true)
-  const navigate=useNavigate()  
+
+  const navigate=useNavigate() 
+  const handleClose = () => {
+    setShowMaodal(false);
+  }; 
 
   function handleEyeClick() {
     navigate('/eye')
+
   }
   function handlePageConstruction(){
    navigate('/pageUnderConstruction')
   }
 
-  function handleSpeechClick(){
+  const handleSpeechPageRoute=()=>{
     navigate('/speech')
-    // console.log("Hii")
-    // setShowMaodal(true)
+  }
+
+  function handleSpeechClick(){
+    setShowMaodal(true)
   }
   return (
     <>
@@ -94,28 +100,19 @@ function Dashboard() {
         <Row>
           <ChatbotComponent></ChatbotComponent>
         </Row>
-      </div>
-      {modal && (
-           <div
-           className="modal show"
-           style={{ display: 'block', position: 'initial' }}
-         >
-           <Modal.Dialog>
-             <Modal.Header closeButton>
-               <Modal.Title>Modal title</Modal.Title>
-             </Modal.Header>
-     
+        {modal && (
+           <Modal show= {modal} onHide={handleClose}>     
              <Modal.Body>
-               <p>Modal body text goes here.</p>
+               <p>Do you want to Test your Speech</p>
              </Modal.Body>
      
-             <Modal.Footer>
-               <Button variant="secondary">Close</Button>
-               <Button variant="primary">Save changes</Button>
+             <Modal.Footer style={{display: "flex", flexDirection:"row-reverse"}}>
+               <Button variant="secondary" style={{ minWidth: "10px", margin: "15px"}} onClick={handleClose}>Close</Button>
+               <Button variant="info" style={{ minWidth: "10px", margin: "15px"}} onClick={handleSpeechPageRoute}>Yes</Button>
              </Modal.Footer>
-           </Modal.Dialog>
-         </div>
+         </Modal>
         )}
+      </div>
         
     </>
   );
