@@ -16,15 +16,23 @@ export default function Eye() {
     return (
         <div style={{ color: "whitesmoke", display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
             <div>
-                <div style={{ display: "flex"}}>
+                <div style={{ display: "flex", flexDirection:'column'}}>
+                    <div>
                     <p style={{ fontSize: "25px", display: 'flex', justifyContent:"center" }}>Do you want to be test your eyes? </p>
-                    <label style={{alignItems:"center",paddingTop: "10px", paddingLeft:"10px"}}>
-                    <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={handleChange}
-                    />
-                    </label>
+                    </div>
+                    <div style={{display:"flex", justifyContent:'center',alignItems: 'center'}}>
+                        <br></br>
+                        <label style={{alignItems:"center",paddingTop: "10px", paddingLeft:"10px"}}>
+                        <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={handleChange}
+                        />
+                        </label>
+                        <p style={{marginLeft: "10px"}}>If yes click on the checkbox</p>
+
+                    </div>
+                    
                 </div>
                 <div style={{display:"flex",justifyContent:"center", alignItems:"center", marginTop:"15px"}}>
                     {isChecked &&
