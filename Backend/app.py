@@ -52,19 +52,15 @@ def split_audio(file_path, segment_length=3, format='wav'):
 @cross_origin()
 def predict():
 
-    # data="C:/Users/kk716j/Downloads/output.wav"
-    # prediction=model.predict(data)  # taking input audio file
     print(request.files)
     file = request.files['file']
     split_audio(file)
 
     features1={}
-    # filenames={"output_segment_1.wav","output_segment_2.wav","output_segment_3.wav","output_segment_4.wav","output_segment_5.wav","output_segment_6.wav"}
     for filename in filenames:
         audio, sample_rate = librosa.load(filename, res_type='kaiser_fast', sr=None)
         mfccs = np.mean(librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=13).T,axis=0)
         features1[filename] = mfccs
-    # features1["HeStutters_0_27.wav"]
     df1_features = pd.DataFrame.from_dict(features1)
     df1_features = df1_features.transpose()
 
@@ -72,7 +68,6 @@ def predict():
     prediction=model.predict(df1_features)
     print(prediction,type(prediction))
     
-    # return list(ans)
     return jsonify({'prediction':prediction.tolist()})
 
 

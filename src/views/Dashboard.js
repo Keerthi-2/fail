@@ -12,11 +12,15 @@ import {
   Col,
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import ChatbotComponent from "./ChatBot";
+import Bot from "./Bot";
 
 
 function Dashboard() {
   const[modal,setShowMaodal]=useState(false)
+  const[eyeModal,setEyeModal]=useState(false)
+  const[muscleModal,setMuscleModal]=useState(false)
+
+  const [comp,setComp]=useState('')
 
   const navigate=useNavigate() 
   const handleClose = () => {
@@ -24,18 +28,36 @@ function Dashboard() {
   }; 
 
   function handleEyeClick() {
-    navigate('/eye')
+    setShowMaodal(true)
+    setComp("Eyes")
 
   }
+  function handleMuscleClick(){
+    setShowMaodal(true)
+    setComp("Muscles")
+  }
+ 
+  const handlePageRoute=()=>{
+    console.log(comp)
+    switch(comp){
+      case "Eyes":
+        navigate('/eye');
+        break;
+      case "Speech":
+        navigate('/speech')
+        break;
+      case "Muscles":
+        navigate('/speechdoc')
+        break;
+    }
+  }
+
+  
   function handlePageConstruction(){
    navigate('/pageUnderConstruction')
   }
-
-  const handleSpeechPageRoute=()=>{
-    navigate('/speech')
-  }
-
   function handleSpeechClick(){
+    setComp("Speech")
     setShowMaodal(true)
   }
   return (
@@ -85,7 +107,7 @@ function Dashboard() {
             </Card>
           </Col>
           <Col lg="4">
-            <Card className="card-chart" style={{cursor: "pointer"}} onClick={handlePageConstruction}>
+            <Card className="card-chart" style={{cursor: "pointer"}} onClick={handleMuscleClick}>
               <CardHeader>
                 <CardTitle tag="h3">
                   Muscles
@@ -98,20 +120,22 @@ function Dashboard() {
           </Col>
         </Row>
         <Row>
-          <ChatbotComponent></ChatbotComponent>
+          <Bot></Bot>
         </Row>
+
         {modal && (
            <Modal show= {modal} onHide={handleClose}>     
              <Modal.Body>
-               <p>Do you want to Test your Speech</p>
+               <p>Do you want to Test your {comp}</p>
              </Modal.Body>
      
              <Modal.Footer style={{display: "flex", flexDirection:"row-reverse"}}>
                <Button variant="secondary" style={{ minWidth: "10px", margin: "15px"}} onClick={handleClose}>Close</Button>
-               <Button variant="info" style={{ minWidth: "10px", margin: "15px"}} onClick={handleSpeechPageRoute}>Yes</Button>
+               <Button variant="info" style={{ minWidth: "10px", margin: "15px"}} onClick={handlePageRoute}>Yes</Button>
              </Modal.Footer>
          </Modal>
         )}
+
       </div>
         
     </>
