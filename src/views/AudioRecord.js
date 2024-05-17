@@ -65,7 +65,7 @@ const AudioRecorder = () => {
     }
 
     const handleresourcePageClick=()=>{
-        navigate('/resources')
+        navigate('/speechdoc')
     }
  
     return (
